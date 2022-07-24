@@ -1,4 +1,8 @@
-const Home = () => {
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
+
+const Home = (prop) => {
     return (
         <div className="home_page">
             <div className="bgr_slide">
@@ -9,7 +13,11 @@ const Home = () => {
                     <p>Các bài viết sẽ nằm ở đây</p>
                 </div>
                 <div className="bgr_about">
-                    <p>about me</p>
+                    <div className='img_admin'>
+                        {(prop.img_admin !== "") ? (<FontAwesomeIcon icon={faCircleUser}/>) :
+                        (<img src={prop.img_admin} alt="This is the Admin profile."/>)
+                        }
+                    </div>
                 </div>
             </div>
         </div>

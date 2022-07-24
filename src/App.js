@@ -1,3 +1,4 @@
+import React from 'react';
 import Navbar from './Navbar';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import Home from './Home';
@@ -12,7 +13,7 @@ function App() {
           <Navbar />
         </div>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home img_admin={"./src/imgs/img_admin.png"}/>} />
           <Route path="/blogs" element={<Blogs />} />
         </Routes>
       </div>
