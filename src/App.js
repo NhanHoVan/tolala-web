@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from './Navbar';
+import Navbar from './screens/navbar/Navbar';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
-import Home from './Home';
-import Blogs from './Blogs';
+import Home from './screens/home/Home';
+import Friends from './screens/friends/Friends';
 
 function App() {
   return (
@@ -13,8 +13,8 @@ function App() {
           <Navbar />
         </div>
         <Routes>
-          <Route exact path="/" element={<Home img_admin={"./src/imgs/img_admin.png"}/>} />
-          <Route path="/blogs" element={<Blogs />} />
+          <Route exact path="/" element={<Home img_admin={"./imgs/img_admin.png"}/>} />
+          <Route path="/friends" element={<Friends />} />
         </Routes>
       </div>
       </BrowserRouter>

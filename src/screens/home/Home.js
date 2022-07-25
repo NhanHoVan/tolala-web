@@ -1,4 +1,5 @@
 import React from 'react';
+import './home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 
@@ -9,7 +10,7 @@ const Home = (prop) => {
                 <p>Slide hình ảnh ở đây</p>
             </div>
             <div className="bgr_content">
-                <div className="bgr_blog">
+                <div className="bgr_feeds">
                     <p>Các bài viết sẽ nằm ở đây</p>
                 </div>
                 <div className="bgr_about">
