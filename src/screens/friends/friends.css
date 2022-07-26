@@ -1,5 +1,30 @@
 .bgr_friends {
     width: 100%;
-    margin-top: 10px;
-    background-color: #D9D9D9;
+    margin-top: 40px;
+}
+.bgr_friends ul {
+    padding: 0;
+}
+.bgr_friends ul>li {
+    list-style: none;
+    margin: 15px 0px 15px 0px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+}
+.bgr_friends ul>li .bgr_del_friend {
+    float: right;
+    margin: 0px 10px 0px 0px;
+}
+.display_flex {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.display_flex div:last-of-type {
+    font-size: 30px;
+}
+.bgr_friends .icon path {
+    color: #F26618;
 }

@@ -19,6 +19,9 @@ const Home = (prop) => {
                         (<img src={prop.img_admin} alt="This is the Admin profile."/>)
                         }
                     </div>
+                    <div>
+                        <p>content</p>
+                    </div>
                 </div>
             </div>
         </div>

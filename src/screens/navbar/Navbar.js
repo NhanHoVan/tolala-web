@@ -1,27 +1,28 @@
 import { faHome, faMessage, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './navbar.css';
 
-const Navbar = () => {
+const Navbar = (prop) => {
     
+
     return (
         <div className="navbar">
             <Link to='/'><h1 className="title_page">Tolala</h1></Link>
             <div className='display_flex_right'>
                 <ul>
-                    <li>
-                        <Link to='/'>
+                    <li style={{backgroundColor: prop.selected === "isHome" ? '#F26618':'',}}>
+                        <NavLink to='/'>
                             <FontAwesomeIcon className='icon' icon={faHome}/>
-                        </Link>
+                        </NavLink>
                     </li>
-                    <li>
+                    <li style={{backgroundColor: prop.selected === "isFriends" ? '#F26618':'',}}>
                         <Link to='/friends'>
                             <FontAwesomeIcon className='icon' icon={faUserGroup}/>
                         </Link>
                     </li>
-                    <li>
+                    <li style={{backgroundColor: prop.selected === "isMessenger" ? '#F26618':'',}}>
                         <Link to='/messenger'>
                             <FontAwesomeIcon className='icon' icon={faMessage}/>
                         </Link>

@@ -45,6 +45,10 @@
 .navbar ul>li>a:hover {
     color: #FFFFFF;
 }
+.navbar .selected {
+    background-color: #F26618;
+    color: black;
+}
 .icon path {
     color: #ffffff;
 }
