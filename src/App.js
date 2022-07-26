@@ -14,7 +14,7 @@ function App() {
           <Navbar selected={selected}/>
         </div>
         <Routes>
-          <Route exact path="/" element={<Home img_admin={""}/>} />
+          <Route exact path="/" element={<Home img_admin={"./imgs/img_admin.png"}/>} />
           <Route path="/friends" element={<Friends />} />
         </Routes>
       </div>
