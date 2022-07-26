@@ -13,7 +13,7 @@ function App() {
           <Navbar />
         </div>
         <Routes>
-          <Route exact path="/" element={<Home img_admin={"./imgs/img_admin.png"}/>} />
+          <Route exact path="/" element={<Home img_admin={""}/>} />
           <Route path="/friends" element={<Friends />} />
         </Routes>
       </div>

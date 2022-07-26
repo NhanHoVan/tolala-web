@@ -15,7 +15,7 @@ const Home = (prop) => {
                 </div>
                 <div className="bgr_about">
                     <div className='img_admin'>
-                        {(prop.img_admin !== "") ? (<FontAwesomeIcon icon={faCircleUser}/>) :
+                        {(prop.img_admin === "") ? (<FontAwesomeIcon icon={faCircleUser}/>) :
                         (<img src={prop.img_admin} alt="This is the Admin profile."/>)
                         }
                     </div>
