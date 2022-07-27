@@ -13,6 +13,7 @@ const arrFeed = [{
     createDate: new Date(),
     updateDate: new Date(),
     shareTo: 0,
+    shareFriends: "",
     like: 0
   }]
 
@@ -24,6 +25,7 @@ const feedList = [{
     createDate: 2022/7/24,
     updateDate: "",
     shareTo: 1,
+    shareFriends: "",
     like: 23
   },
   {
@@ -34,6 +36,7 @@ const feedList = [{
     createDate: 2022/7/25,
     updateDate: "",
     shareTo: 0,
+    shareFriends: "",
     like: 0
   },
 ]
@@ -41,7 +44,10 @@ const feedList = [{
 const Home = (props) => {
     const [imgSlide, setImgSlide] = useState(1);
     const [feeds, setFeeds] = useState(arrFeed);
-    const [img, setImg] = useState("");
+    const [selectImg, setSelectImg] = useState("");
+    const [content, setContent] = useState("");
+    const [share, setShare] = useState("1");
+    const hiddenImgInput = React.useRef(null);
 
     //Set list feed
     useEffect(() => {
@@ -81,16 +87,24 @@ const Home = (props) => {
     const shareTo = (param) => {
         switch (param) {
             case 0:
-                return <FontAwesomeIcon icon={faLock}/>
+                return <FontAwesomeIcon icon={faLock}/>;
             case 1:
-                return <FontAwesomeIcon icon={faGlobe}/>
+                return <FontAwesomeIcon icon={faGlobe}/>;
             default:
-                return <FontAwesomeIcon icon={faUserGroup}/>
+                return <FontAwesomeIcon icon={faUserGroup}/>;
         }
     }
     const addLike = () => {
 
     }
+
+    //pick image
+    const handleClickImg = (e) => {
+        hiddenImgInput.current.click();
+    }
+    const handleChangeImg = (e) => {
+        setSelectImg(e.target.files[0]);
+      };
 
     return (
         <div className="home_page">
@@ -107,16 +121,41 @@ const Home = (props) => {
                 <div className="bgr_feeds">
                     <div className='bgr_addNewFeed'>
                         <div className='img_feed'>
-                            {(img === "") ? ("") :
-                                (<img src={img.uri} alt="This is the new feed's img"/>)
+                            {(selectImg === "") ? ("") :
+                                (<img src={URL.createObjectURL(selectImg)} alt="This is the new feed's img"/>)
                                 }
                         </div>
-                        <textarea rows="4" placeholder='Bạn đang nghĩ gì?'></textarea>
-                        <div className='display_flex_right'>
-                            <p><FontAwesomeIcon icon={faIcons}/></p>
-                            <p><FontAwesomeIcon icon={faUserTag}/></p>
-                            <p><FontAwesomeIcon icon={faImages}/></p>
-                            <p><FontAwesomeIcon icon={faSquarePlus}/></p>
+                        <textarea
+                            rows="4"
+                            placeholder='Bạn đang nghĩ gì?'
+                            required
+                            value={content}
+                            onChange={(e)=> setContent(e.target.value)}
+                        ></textarea>
+                        <div className='display_flex'>
+                            <div className='display_flex_left'>
+                                {(share === "1") ? (<FontAwesomeIcon icon={faGlobe}/>) : (<FontAwesomeIcon icon={faLock}/>)}
+                                <select
+                                    value={share}
+                                    onChange={(e) => setShare(e.target.value)}
+                                >
+                                    <option value={0}>Private</option>
+                                    <option value={1}>Public </option>
+                                </select>
+                            </div>
+                            <div className='display_flex_right'>
+                                <p><FontAwesomeIcon icon={faIcons}/></p>
+                                <p><FontAwesomeIcon icon={faUserTag}/></p>
+                                <p onClick={handleClickImg}><FontAwesomeIcon icon={faImages}/></p>
+                                <input
+                                    type={'file'}
+                                    style={{display:'none'}}
+                                    ref={hiddenImgInput}
+                                    onChange={handleChangeImg}
+                                    // onChange={(e) => {setSelectImg(e.target.files[0]);}}
+                                ></input>
+                                <p><FontAwesomeIcon icon={faSquarePlus}/></p>
+                            </div>
                         </div>
                     </div>
                     {feeds.map((feed)=> (
