@@ -1,15 +1,21 @@
 [
     {
         "id": "aaaaas1",
-        "userName": "Nguyen Viet Hoang",
+        "name": "Nguyen Viet Hoang",
+        "birthday": "2010/2/22",
         "avatar": "",
+        "hobby": "Đá bóng",
+        "relationship": "Độc thân",
         "registerDate": "2022/7/26",
         "email": ""
     },
     {
         "id": "aaaaas2",
-        "userName": "Tran Thi Thao",
+        "name": "Tran Thi Thao",
+        "birthday": "2010/2/22",
         "avatar": "",
+        "hobby": "Đá bóng",
+        "relationship": "Độc thân",
         "registerDate": "2022/7/25",
         "email": ""
     }
