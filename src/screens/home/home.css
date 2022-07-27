@@ -108,6 +108,7 @@
 }
 .feed p {
     margin: 5px 0px;
+    text-align: justify;
 }
 .img_feed{
     margin-top: 15px;
@@ -116,6 +117,10 @@
     width: 100%;
     height: auto;
     object-fit: cover;
+}
+.iconHeart {
+    font-size: 25px;
+    margin-top: 10px;
 }
 .iconHeart path {
     color: #ff0000;
