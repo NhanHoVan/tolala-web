@@ -4,11 +4,6 @@ import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import Home from './screens/home/Home';
 import Friends from './screens/friends/Friends';
 
-const imgList = {
-  img_admin: "",
-  icon_user: "./imgs/icon_user.png"
-}
-
 const user = {
   id: "aaaaas1",
   name: "Nguyen Viet Hoang",
@@ -29,7 +24,7 @@ function App() {
           <Navbar />
         </div>
         <Routes>
-          <Route exact path="/" element={<Home avatar={imgList} user={user}/>} /> {/*./imgs/img_admin.png */}
+          <Route exact path="/" element={<Home user={user}/>} /> {/*./imgs/img_admin.png */}
           <Route path="/friends" element={<Friends />} />
         </Routes>
       </div>
