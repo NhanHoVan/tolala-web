@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faGlobe, faHeart, faIcons, faImages, faLock, faMessage, faSquarePlus, faUserGroup, faUserPlus, faUserTag } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, faEllipsis, faGlobe, faHeart, faIcons, faImages, faLock, faMessage, faSquarePlus, faUserGroup, faUserPlus, faUserTag } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
@@ -13,30 +13,27 @@ const arrFeed = [{
     createDate: new Date(),
     updateDate: new Date(),
     shareTo: 0,
-    shareFriends: "",
     like: 0
   }]
 
 const feedList = [{
-    id: 1,
+    id: 0,
     content: "Chiều 26-7, ông Đình Thành Tiến, chủ tịch UBND xã Cát Khánh, huyện Phù Cát (Bình Định) cho biết vào sáng cùng ngày tại khu vực Hòn Trâu, thuộc vùng biển Đề Gi xuất hiện 2 con cá voi xanh trước sự kinh ngạc của nhiều du khách và hướng dẫn viên.",
     image: "./imgs/feed1.jpg",
     author: "aaaaas1",
     createDate: 2022/7/24,
     updateDate: "",
-    shareTo: 1,
-    shareFriends: "",
+    shareTo: "1",
     like: 23
   },
   {
-    id: 2,
+    id: 1,
     content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
     image: "./imgs/feed2.jpg",
     author: "aaaaas1",
     createDate: 2022/7/25,
     updateDate: "",
-    shareTo: 0,
-    shareFriends: "",
+    shareTo: "0",
     like: 0
   },
 ]
@@ -47,7 +44,9 @@ const Home = (props) => {
     const [selectImg, setSelectImg] = useState("");
     const [content, setContent] = useState("");
     const [share, setShare] = useState("1");
-    const hiddenImgInput = React.useRef(null);
+    const [mess, setMess] = useState("");
+    const hiddenImgInput = useRef("");
+    const selectId = useRef("");
 
     //Set list feed
     useEffect(() => {
@@ -86,9 +85,9 @@ const Home = (props) => {
     //feed
     const shareTo = (param) => {
         switch (param) {
-            case 0:
+            case "0":
                 return <FontAwesomeIcon icon={faLock}/>;
-            case 1:
+            case "1":
                 return <FontAwesomeIcon icon={faGlobe}/>;
             default:
                 return <FontAwesomeIcon icon={faUserGroup}/>;
@@ -104,7 +103,51 @@ const Home = (props) => {
     }
     const handleChangeImg = (e) => {
         setSelectImg(e.target.files[0]);
-      };
+    };
+    const cleanImg = () => {
+        setSelectImg("");
+    }
+
+    //Add New Feed
+    const addNewFeed = () => {
+        if (content === "") {
+            setMess("Bạn đang nghĩ gì?")
+        } else {
+            let int = feeds.length;
+            let feedNew = {
+                id: int,
+                content: content,
+                image: URL.createObjectURL(selectImg),
+                author: "",
+                createDate: new Date(),
+                updateDate: "",
+                shareTo: share,
+                like: 0,
+            }
+            let feedListNew = feeds.unshift(feedNew);
+            console.log("Số feed: "+feedListNew);
+            setFeeds(feeds);
+            cleanFormFeed()
+        }
+    }
+    const cleanFormFeed = () => {
+        setContent("");
+        setShare("1");
+        cleanImg();
+    }
+
+    //Show button acction
+    const showBtnAct = () => {
+        console.log("myContainer..", selectId.current.id);
+    }
+    //Edit
+    const editFeed = () => {
+
+    }
+    //Delete
+    const deleteFeed = () => {
+        
+    }
 
     return (
         <div className="home_page">
@@ -122,9 +165,10 @@ const Home = (props) => {
                     <div className='bgr_addNewFeed'>
                         <div className='img_feed'>
                             {(selectImg === "") ? ("") :
-                                (<img src={URL.createObjectURL(selectImg)} alt="This is the new feed's img"/>)
+                                (<div className='bgr_img_feed'><img src={URL.createObjectURL(selectImg)} alt="This is the new feed's img"/><p onClick={cleanImg}>x</p></div>)
                                 }
                         </div>
+                        {(mess === "")?(""):(<p className='mess'>{mess}</p>)}
                         <textarea
                             rows="4"
                             placeholder='Bạn đang nghĩ gì?'
@@ -152,15 +196,21 @@ const Home = (props) => {
                                     style={{display:'none'}}
                                     ref={hiddenImgInput}
                                     onChange={handleChangeImg}
-                                    // onChange={(e) => {setSelectImg(e.target.files[0]);}}
                                 ></input>
-                                <p><FontAwesomeIcon icon={faSquarePlus}/></p>
+                                <p onClick={addNewFeed}><FontAwesomeIcon icon={faSquarePlus}/></p>
                             </div>
                         </div>
                     </div>
                     {feeds.map((feed)=> (
                         <div className='feed' key={feed.id}>
-                            <div className='display_flex_right'>
+                            <div className='display_flex_space'>
+                                <div className='dot_act'>
+                                    <p id={feed.id} ref={selectId} onClick={showBtnAct}><FontAwesomeIcon icon={faEllipsis}/></p>
+                                    <div id={selectId.current.id + "b"} className='btn_act'>
+                                        <p onClick={editFeed}>Edit</p>
+                                        <p onClick={deleteFeed}>Delete</p>
+                                    </div>
+                                </div>
                                 <p>{moment(feed.createDate).startOf('day').fromNow()} - {shareTo(feed.shareTo)}</p>
                             </div>
                             <div className='img_feed'>
