@@ -117,7 +117,7 @@ const Home = (props) => {
             let feedNew = {
                 id: int,
                 content: content,
-                image: URL.createObjectURL(selectImg),
+                image: ((selectImg) === "" ? ("") : (URL.createObjectURL(selectImg))),
                 author: "",
                 createDate: new Date(),
                 updateDate: "",
@@ -133,6 +133,7 @@ const Home = (props) => {
     const cleanFormFeed = () => {
         setContent("");
         setShare("1");
+        setMess("");
         cleanImg();
     }
 
