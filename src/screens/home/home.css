@@ -8,15 +8,36 @@
     justify-content: space-between;
     align-items: center;
 }
-.dot_act {
+.update_delete_feed {
     position: relative;
 }
-.dot_act p {
+.update_delete_feed p {
     font-size: 20px;
 }
-.dot_act .btn_act {
+.update_delete_feed .btn_update_delete {
     position: absolute;
     display: none;
+}
+.update_delete_feed .showBtn {
+    display: block;
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: #f26618 solid 1px;
+}
+.update_delete_feed .showBtn p {
+    font-size: 15px;
+    border-bottom: #f26618 solid 1px;
+    padding: 5px 10px;
+    margin: 0px;
+}
+.update_delete_feed .showBtn p:hover {
+    background-color: #f26618;
+    color: #ffffff;
+}
+.update_delete_feed .showBtn p:last-child {
+    font-size: 15px;
+    border-bottom: none;
+    padding: 5px 10px;
 }
 .display_flex_space p path {
     color: #d9d9d9;

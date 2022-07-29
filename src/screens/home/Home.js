@@ -38,20 +38,27 @@ const feedList = [{
   },
 ]
 
+const UpdateDeleteFeed = ({id, editFeed, deleteFeed}) => (
+    <div id={id} className='btn_update_delete'>
+        <p onClick={editFeed}>Edit</p>
+        <p onClick={deleteFeed}>Delete</p>
+    </div>
+)
+
 const Home = (props) => {
     const [imgSlide, setImgSlide] = useState(1);
     const [feeds, setFeeds] = useState(arrFeed);
     const [selectImg, setSelectImg] = useState("");
+    const [selectFeed, setSelectFeed] = useState(null);
     const [content, setContent] = useState("");
     const [share, setShare] = useState("1");
     const [mess, setMess] = useState("");
     const hiddenImgInput = useRef("");
-    const selectId = useRef("");
 
     //Set list feed
     useEffect(() => {
       setFeeds(feedList)
-    }, [feeds])
+    }, [])
 
     //Reload page
     const reload =() =>{
@@ -124,8 +131,8 @@ const Home = (props) => {
                 shareTo: share,
                 like: 0,
             }
-            let feedListNew = feeds.unshift(feedNew);
-            console.log("Số feed: "+feedListNew);
+            let count = feeds.unshift(feedNew);
+            console.log("Thêm feed thành công! Tổng số feed là: "+ count);
             setFeeds(feeds);
             cleanFormFeed()
         }
@@ -137,17 +144,26 @@ const Home = (props) => {
         cleanImg();
     }
 
-    //Show button acction
-    const showBtnAct = () => {
-        console.log("myContainer..", selectId.current.id);
-    }
+    //Edit delete feed
     //Edit
     const editFeed = () => {
-
     }
     //Delete
     const deleteFeed = () => {
-        
+        const newListFeed = feeds.filter((item)=>item.id !== selectFeed);
+        setFeeds(newListFeed);
+        console.log("Đã xóa feed có id: " +selectFeed);
+        setSelectFeed(null);
+    }
+
+    //Show button acction
+    const showBtnUpdateDeleteFeed = (e) => {
+        document.getElementById(e.currentTarget.id + "ud").classList.add("showBtn");
+        setSelectFeed( parseInt(e.currentTarget.id));
+    }
+    const hideBtnUpdateDeleteFeed = (e) => {
+        document.getElementById(e.currentTarget.id + "ud").classList.remove("showBtn");
+        setSelectFeed(null);
     }
 
     return (
@@ -205,12 +221,9 @@ const Home = (props) => {
                     {feeds.map((feed)=> (
                         <div className='feed' key={feed.id}>
                             <div className='display_flex_space'>
-                                <div className='dot_act'>
-                                    <p id={feed.id} ref={selectId} onClick={showBtnAct}><FontAwesomeIcon icon={faEllipsis}/></p>
-                                    <div id={selectId.current.id + "b"} className='btn_act'>
-                                        <p onClick={editFeed}>Edit</p>
-                                        <p onClick={deleteFeed}>Delete</p>
-                                    </div>
+                                <div className='update_delete_feed'>
+                                    <p id={feed.id} onClick={selectFeed === null ? showBtnUpdateDeleteFeed : hideBtnUpdateDeleteFeed }><FontAwesomeIcon icon={faEllipsis}/></p>
+                                    <UpdateDeleteFeed id={feed.id +"ud"} editFeed={()=>editFeed()} deleteFeed={()=>deleteFeed()}/>
                                 </div>
                                 <p>{moment(feed.createDate).startOf('day').fromNow()} - {shareTo(feed.shareTo)}</p>
                             </div>
