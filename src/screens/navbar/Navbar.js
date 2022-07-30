@@ -15,34 +15,30 @@ const Navbar = () => {
     useEffect(() => {
         console.log(selected);
       }, [selected]);
-
-    const setStyle =(selected, path) => {
-        return (selected === path) ? ({backgroundColor: '#F26618'}) : ({backgroundColor: '#faebd7'});
-    }
     
     return (
         <div className="navbar">
             <div onClick={reload}><Link to='/'><h1 className="title_page">Tolala</h1></Link></div>
             <div className='display_flex_right'>
                 <ul>
-                    <li style={setStyle(selected, "/")} onClick={reload}>
+                    <li >
                         <Link to='/'>
                             <FontAwesomeIcon className='icon' icon={faHome}/>
                         </Link>
                     </li>
-                    <li style={setStyle(selected, "/friends")} onClick={reload}>
+                    <li >
                         <Link to='/friends'>
                             <FontAwesomeIcon className='icon' icon={faUserGroup}/>
                         </Link>
                     </li>
-                    <li style={setStyle(selected, "/messenger")} onClick={reload}>
+                    <li >
                         <Link to='/messenger'>
                             <FontAwesomeIcon className='icon' icon={faMessage}/>
                         </Link>
                     </li>
                 </ul>
-                <div className='user_icon' onClick={reload}>
-                    <Link to='/user' >
+                <div className='user_icon'>
+                    <Link to='/login' >
                         <FontAwesomeIcon className='icon' icon={faUser}/>
                     </Link>
                 </div>

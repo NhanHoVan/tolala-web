@@ -3,9 +3,10 @@ import Navbar from './screens/navbar/Navbar';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import Home from './screens/home/Home';
 import Friends from './screens/friends/Friends';
+import Login from './screens/login/Login';
 
 const user = {
-  id: "aaaaas1",
+  id: "0",
   name: "Nguyen Viet Hoang",
   birthday: "22/2/2022",
   avatar: "",
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home user={user}/>} /> {/*./imgs/img_admin.png */}
           <Route path="/friends" element={<Friends />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
       </BrowserRouter>

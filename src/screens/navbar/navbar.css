@@ -34,7 +34,7 @@
     text-align: center;
     border-radius: 5px;
 }
-.navbar ul>li:hover {
+.navbar .display_flex_right ul>li:hover {
     background-color: #F26618;
 }
 .navbar ul>li>a {
