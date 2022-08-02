@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faEllipsis, faGlobe, faHeart, faIcons, faImages, faLock, faMessage, faSquarePlus, faUserGroup, faUserPlus, faUserTag } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, faEllipsis, faGlobe, faHeart, faIcons, faImages, faLock, faMessage, faSquarePlus, faUserGroup, faUserPlus, faUserTag, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { getUser } from '../utils/Common';
+import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 const arrFeed = [{
@@ -54,6 +56,7 @@ const Home = (props) => {
     const [share, setShare] = useState("1");
     const [mess, setMess] = useState("");
     const hiddenImgInput = useRef("");
+    const user = getUser();
 
     //Set list feed
     useEffect(() => {
@@ -238,25 +241,37 @@ const Home = (props) => {
                     )) }
                 </div>
                 <div className="bgr_about">
-                    <div className='display_flex_col_center'>
-                        <div className='profile_img'>
-                            {(props.user.avatar === "") ? (<img src="./imgs/icon_user.png" alt="This is the User profile."/>) :
-                            (<img src={props.user.avatar} alt="This is the User profile."/>)
-                            }
-                        </div>
-                        <div>
-                            <h3>{props.user.name}</h3>
-                        </div>
-                    </div>
-                    <div className='profile_inf'>
-                        <p>Tuổi: {props.user.birthday}</p>
-                        <p>Sở thích: {props.user.hobby}</p>
-                        <p>Tình trạng: {relationship(props.user.relationship)}</p>
-                    </div>
-                    <div className='profile_act' onClick={reload}>
-                        <Link to='/friends'><FontAwesomeIcon className='icon' icon={faUserPlus} /></Link>
-                        <Link to='/messenger'><FontAwesomeIcon className='icon' icon={faMessage}/></Link>
-                    </div>
+                    {
+                        user === null ? (
+                            <div className='btn_login'>
+                                <NavLink to='/login' >
+                                    <FontAwesomeIcon className='icon' icon={faUser}/>
+                                </NavLink>
+                            </div>
+                        ):(
+                            <div className='bgr_profile'>
+                                <div className='display_flex_col_center'>
+                                    <div className='profile_img'>
+                                        {(user.avatar === "") ? (<img src="./imgs/icon_user.png" alt="This is the User profile."/>) :
+                                        (<img src={user.avatar} alt="This is the User profile."/>)
+                                        }
+                                    </div>
+                                    <div>
+                                        <h3>{user.name}</h3>
+                                    </div>
+                                </div>
+                                <div className='profile_inf'>
+                                    <p>Tuổi: {user.birthday}</p>
+                                    <p>Sở thích: {user.hobby}</p>
+                                    <p>Tình trạng: {relationship(user.relationship)}</p>
+                                </div>
+                                <div className='profile_act' onClick={reload}>
+                                    <Link to='/friends'><FontAwesomeIcon className='icon' icon={faUserPlus} /></Link>
+                                    <Link to='/messenger'><FontAwesomeIcon className='icon' icon={faMessage}/></Link>
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

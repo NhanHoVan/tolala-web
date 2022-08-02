@@ -1,47 +1,76 @@
 import { faHome, faMessage, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { getUser, removeUserSession } from '../utils/Common';
 import './navbar.css';
 
-const Navbar = () => {
+const UserAct = ({handleLogout}) => (
+    <div id='act_user' className='act_user'>
+        <p>Đổi ảnh đại diện</p>
+        <p>Cài đặt chung</p>
+        <p onClick={handleLogout}>Đăng xuất</p>
+    </div>
+)
+
+const Navbar = (props) => {
+    const [selected, setSelected] = useState(false);
+    const user = getUser();
+
+    console.log(user);
     //Reload page
     const reload =() =>{
         window.location.reload();
     }
 
-    //get pathname
-    const selected = window.location.pathname;
-    useEffect(() => {
-        console.log(selected);
-      }, [selected]);
+
+    //Show button user acction
+    const showBtnUserAct = (e) => {
+        document.getElementById("act_user").classList.add("showBtn");
+        setSelected(true);
+    }
+    const hideBtnUserAct = (e) => {
+        document.getElementById("act_user").classList.remove("showBtn");
+        setSelected(false);
+    }
+
+    // handle click event of logout button
+    const handleLogout = () => {
+        removeUserSession();
+        props.history.push('/login');
+    }
     
     return (
         <div className="navbar">
-            <div onClick={reload}><Link to='/'><h1 className="title_page">Tolala</h1></Link></div>
+            <div onClick={reload}><NavLink to='/'><h1 className="title_page">Tolala</h1></NavLink></div>
             <div className='display_flex_right'>
-                <ul>
-                    <li >
-                        <Link to='/'>
-                            <FontAwesomeIcon className='icon' icon={faHome}/>
-                        </Link>
-                    </li>
-                    <li >
-                        <Link to='/friends'>
-                            <FontAwesomeIcon className='icon' icon={faUserGroup}/>
-                        </Link>
-                    </li>
-                    <li >
-                        <Link to='/messenger'>
-                            <FontAwesomeIcon className='icon' icon={faMessage}/>
-                        </Link>
-                    </li>
-                </ul>
-                <div className='user_icon'>
-                    <Link to='/login' >
-                        <FontAwesomeIcon className='icon' icon={faUser}/>
-                    </Link>
+                <div className='nav_list'>
+                    <NavLink style={({ isActive }) => ({ backgroundColor: isActive ? '#F26618' : '#faebd7' })} to='/'>
+                        <FontAwesomeIcon className='icon' icon={faHome}/>
+                    </NavLink>
+                    <NavLink style={({ isActive }) => ({ backgroundColor: isActive ? '#F26618' : '#faebd7' })} to='/friends'>
+                        <FontAwesomeIcon className='icon' icon={faUserGroup}/>
+                    </NavLink>
+                    <NavLink style={({ isActive }) => ({ backgroundColor: isActive ? '#F26618' : '#faebd7' })} to='/messenger'>
+                        <FontAwesomeIcon className='icon' icon={faMessage}/>
+                    </NavLink>
                 </div>
+                {
+                    user === null ? (
+                        <div className='user_icon'>
+                            <NavLink to='/login' >
+                                <FontAwesomeIcon className='icon' icon={faUser}/>
+                            </NavLink>
+                        </div>
+                    ): (
+                        <div className='user_avatar' >
+                            <div className='avatar' onClick={!selected? showBtnUserAct : hideBtnUserAct }>
+                                {user.avatar !== "" ? <img src={user.avatar} alt='avatar user'/>: <div className='user_icon'><FontAwesomeIcon className='icon' icon={faUser}/></div>}
+                            </div>
+                            <UserAct handleLogout={()=>handleLogout()} />
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

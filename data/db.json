@@ -1,0 +1,39 @@
+{
+    "posts": [
+      {
+        "id": 0,
+        "content": "Chiều 26-7, ông Đình Thành Tiến, chủ tịch UBND xã Cát Khánh, huyện Phù Cát (Bình Định) cho biết vào sáng cùng ngày tại khu vực Hòn Trâu, thuộc vùng biển Đề Gi xuất hiện 2 con cá voi xanh trước sự kinh ngạc của nhiều du khách và hướng dẫn viên.",
+        "image": "./imgs/feed1.jpg",
+        "author": "aaaaas1",
+        "createDate": "2022/7/24",
+        "updateDate": "",
+        "shareTo": "1",
+        "like": 23
+      },
+      {
+        "id": 1,
+        "content": "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
+        "image": "./imgs/feed2.jpg",
+        "author": "aaaaas1",
+        "createDate": "2022/7/25",
+        "updateDate": "",
+        "shareTo": "0",
+        "like": 0
+      }
+    ],
+    "users": [
+      {
+        "id": 0,
+        "userName": "user1",
+        "password": "pass1",
+        "token": "0aaa"
+      },
+      {
+        "id": 1,
+        "userName": "user2",
+        "password": "pass2",
+        "token": "1aaa"
+      }
+    ],
+    "profile": { "name": "typicode" }
+}
