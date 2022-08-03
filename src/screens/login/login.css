@@ -46,3 +46,9 @@ input[type="submit"]:hover {
     font-size: 12px;
     font-style: italic;
 }
+.error {
+    max-width: 180px;
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #ff0000;
+}

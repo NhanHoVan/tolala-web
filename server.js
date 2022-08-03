@@ -10,17 +10,41 @@ const app = express();
 const port = process.env.PORT || 4000;
  
 // static user details
-const userData = {
-  userId: "0",
-  password: "123",
-  name: "Nhan Ho Van",
-  username: "user",
-  birthday: "27",
-  hobby: "Chạy",
-  relationship: 0,
-  avatar: "./imgs/img_admin.png",
-  isAdmin: true
-};
+const userArr = [
+  {
+    userId: 0,
+    password: "123",
+    name: "Nhan Ho Van",
+    username: "admin",
+    birthday: "27",
+    hobby: "Chạy",
+    relationship: 0,
+    avatar: "./imgs/img_admin.png",
+    isAdmin: true
+  },
+  {
+    userId: 1,
+    password: "123",
+    name: "Nguyen Van A",
+    username: "user1",
+    birthday: "24",
+    hobby: "Đá bóng",
+    relationship: 1,
+    avatar: "./imgs/feed1.jpg",
+    isAdmin: false
+  },
+  {
+    userId: 2,
+    password: "123",
+    name: "Tran Thi Thao",
+    username: "user2",
+    birthday: "27",
+    hobby: "Hát",
+    relationship: 1,
+    avatar: "./imgs/feed2.jpg",
+    isAdmin: false
+  },
+];
  
 // enable CORS
 app.use(cors());
@@ -73,19 +97,21 @@ app.post('/users/signin', function (req, res) {
   }
  
   // return 401 status if the credential is not match.
-  if (user !== userData.username || pwd !== userData.password) {
-    return res.status(401).json({
-      error: true,
-      message: "Username or Password is Wrong."
-    });
+  for (let i = 0; i < userArr.length; i++) {
+    userData = userArr[i];
+    if (user === userData.username && pwd === userData.password) {
+      // generate token
+      const token = utils.generateToken(userData);
+      // get basic user details
+      const userObj = utils.getCleanUser(userData);
+      // return the token along with user details
+      return res.json({ user: userObj, token });
+    }
   }
- 
-  // generate token
-  const token = utils.generateToken(userData);
-  // get basic user details
-  const userObj = utils.getCleanUser(userData);
-  // return the token along with user details
-  return res.json({ user: userObj, token });
+  return res.status(401).json({
+    error: true,
+    message: "Username or Password is Wrong."
+  });
 });
  
  

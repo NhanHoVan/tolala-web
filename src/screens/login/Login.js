@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { setUserSession } from '../utils/Common';
+import { createBrowserHistory } from "history";
 import axios from 'axios';
 import './login.css';
+
+const history = createBrowserHistory({ window });
+
+//Reload page
+const reload =() =>{
+    window.location.reload();
+}
 
 const Login = (props) => {
     const username = useFormInput('');
@@ -50,9 +58,12 @@ const Login = (props) => {
     //     <div className="error">{error.message}</div>
     //     );
     // handle button click of login form
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        
         setError(null);
         setLoading(true);
+
+        e.preventDefault();
 
         const data = {
             username: username.value,
@@ -63,11 +74,14 @@ const Login = (props) => {
         .then(response => {
             setLoading(false);
             setUserSession(response.data.token, response.data.user);
-            props.history.push('/');
+            history.push('/');
+            reload();
         }).catch(error => {
             setLoading(false);
-            if (error.response.status === 401) setError(error.response.data.message);
-            else setError("Something went wrong. Please try again later.");
+            if (error.response !== null) {
+                if (error.response.status === 401) setError(error.response.data.message);
+                else setError("Something went wrong. Please try again later.");
+            }
         });
     }
 
@@ -78,14 +92,15 @@ const Login = (props) => {
                     <form onSubmit={handleSubmit}>
                         <div className="input_container">
                             <label>Tên đăng nhập: </label>
-                            <input type="text" {...username} autoComplete="new-password" required />
+                            <input type="text" {...username} autoComplete="username" />
                             {/* {renderError("uname")} */}
                         </div>
                         <div className="input_container">
                             <label>Mật khẩu: </label>
-                            <input type="password" {...password} autoComplete="new-password" required />
+                            <input type="password" {...password} autoComplete="password" />
                             {/* {renderError("pass")} */}
                         </div>
+                        <div className="error">{error}</div>
                         <div className="button_container">
                             <input type="submit" value={loading ? "Loading...": "Đăng nhập"} disabled={loading}/>
                         </div>
@@ -100,12 +115,12 @@ const useFormInput = initialValue => {
     const [value, setValue] = useState(initialValue);
    
     const handleChange = e => {
-      setValue(e.target.value);
+        setValue(e.target.value);
     }
     return {
-      value,
-      onChange: handleChange
+        value,
+        onChange: handleChange
     }
-  }
+}
  
 export default Login;

@@ -1,43 +1,34 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faEllipsis, faGlobe, faHeart, faIcons, faImages, faLock, faMessage, faSquarePlus, faUserGroup, faUserPlus, faUserTag, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, faEllipsis, faGlobe, faHeart, faIcons, faImages, faLock, faMessage, faSquarePlus, faUserGroup, faUserPlus, faUserTag} from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { getUser } from '../utils/Common';
+import { getToken, getUser } from '../utils/Common';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-const arrFeed = [{
-    id: 0,
-    content: "",
-    image: "",
-    author: "",
-    createDate: new Date(),
-    updateDate: new Date(),
-    shareTo: 0,
-    like: 0
-  }]
+const token = getToken();
 
 const feedList = [{
     id: 0,
     content: "Chiều 26-7, ông Đình Thành Tiến, chủ tịch UBND xã Cát Khánh, huyện Phù Cát (Bình Định) cho biết vào sáng cùng ngày tại khu vực Hòn Trâu, thuộc vùng biển Đề Gi xuất hiện 2 con cá voi xanh trước sự kinh ngạc của nhiều du khách và hướng dẫn viên.",
     image: "./imgs/feed1.jpg",
-    author: "aaaaas1",
+    authorId: 0,
     createDate: 2022/7/24,
     updateDate: "",
-    shareTo: "1",
-    like: 23
-  },
+    shareTo: 1,
+    like: 23,
+},
   {
     id: 1,
     content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
     image: "./imgs/feed2.jpg",
-    author: "aaaaas1",
+    authorId: 1,
     createDate: 2022/7/25,
     updateDate: "",
-    shareTo: "0",
-    like: 0
-  },
+    shareTo: 0,
+    like: 0,
+},
 ]
 
 const UpdateDeleteFeed = ({id, editFeed, deleteFeed}) => (
@@ -49,18 +40,22 @@ const UpdateDeleteFeed = ({id, editFeed, deleteFeed}) => (
 
 const Home = (props) => {
     const [imgSlide, setImgSlide] = useState(1);
-    const [feeds, setFeeds] = useState(arrFeed);
+    const [feeds, setFeeds] = useState([]);
     const [selectImg, setSelectImg] = useState("");
     const [selectFeed, setSelectFeed] = useState(null);
     const [content, setContent] = useState("");
-    const [share, setShare] = useState("1");
+    const [share, setShare] = useState(1);
     const [mess, setMess] = useState("");
     const hiddenImgInput = useRef("");
     const user = getUser();
 
     //Set list feed
     useEffect(() => {
-      setFeeds(feedList)
+        (user === null) ? (
+            setFeeds(feedList.filter((item)=> item.shareTo === 1))
+        ):(
+            setFeeds(feedList)
+        )
     }, [])
 
     //Reload page
@@ -95,9 +90,9 @@ const Home = (props) => {
     //feed
     const shareTo = (param) => {
         switch (param) {
-            case "0":
+            case 0:
                 return <FontAwesomeIcon icon={faLock}/>;
-            case "1":
+            case 1:
                 return <FontAwesomeIcon icon={faGlobe}/>;
             default:
                 return <FontAwesomeIcon icon={faUserGroup}/>;
@@ -133,6 +128,7 @@ const Home = (props) => {
                 updateDate: "",
                 shareTo: share,
                 like: 0,
+                token: token
             }
             let count = feeds.unshift(feedNew);
             console.log("Thêm feed thành công! Tổng số feed là: "+ count);
@@ -142,7 +138,7 @@ const Home = (props) => {
     }
     const cleanFormFeed = () => {
         setContent("");
-        setShare("1");
+        setShare(1);
         setMess("");
         cleanImg();
     }
@@ -167,6 +163,15 @@ const Home = (props) => {
     const hideBtnUpdateDeleteFeed = (e) => {
         document.getElementById(e.currentTarget.id + "ud").classList.remove("showBtn");
         setSelectFeed(null);
+    }
+
+    //Set permission
+    const isPermission = (feed) => {
+        let permission = false;
+        if (user.userId === 0 || feed.authorId === user.userId) {
+            permission = true;
+        }
+        return permission;
     }
 
     return (
@@ -198,7 +203,7 @@ const Home = (props) => {
                         ></textarea>
                         <div className='display_flex'>
                             <div className='display_flex_left'>
-                                {(share === "1") ? (<FontAwesomeIcon icon={faGlobe}/>) : (<FontAwesomeIcon icon={faLock}/>)}
+                                {(share === 1) ? (<FontAwesomeIcon icon={faGlobe}/>) : (<FontAwesomeIcon icon={faLock}/>)}
                                 <select
                                     value={share}
                                     onChange={(e) => setShare(e.target.value)}
@@ -225,7 +230,10 @@ const Home = (props) => {
                         <div className='feed' key={feed.id}>
                             <div className='display_flex_space'>
                                 <div className='update_delete_feed'>
-                                    <p id={feed.id} onClick={selectFeed === null ? showBtnUpdateDeleteFeed : hideBtnUpdateDeleteFeed }><FontAwesomeIcon icon={faEllipsis}/></p>
+                                    {(user === null) ? null : (
+                                    (isPermission(feed)) ? (
+                                            <p id={feed.id} onClick={selectFeed === null ? showBtnUpdateDeleteFeed : hideBtnUpdateDeleteFeed }><FontAwesomeIcon icon={faEllipsis}/></p>
+                                        ): (null))}
                                     <UpdateDeleteFeed id={feed.id +"ud"} editFeed={()=>editFeed()} deleteFeed={()=>deleteFeed()}/>
                                 </div>
                                 <p>{moment(feed.createDate).startOf('day').fromNow()} - {shareTo(feed.shareTo)}</p>
@@ -243,9 +251,10 @@ const Home = (props) => {
                 <div className="bgr_about">
                     {
                         user === null ? (
-                            <div className='btn_login'>
+                            <div className='profile_img'>
                                 <NavLink to='/login' >
-                                    <FontAwesomeIcon className='icon' icon={faUser}/>
+                                    <img src="./imgs/icon_user.png" alt="This is the User profile."/>
+                                    <p>Đăng nhập để hiển thị thông tin</p>
                                 </NavLink>
                             </div>
                         ):(

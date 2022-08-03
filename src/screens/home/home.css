@@ -145,6 +145,14 @@
     border-radius: 50%;
     box-shadow: #808080 0px 0px 3px 0px;
 }
+.profile_img a {
+    text-decoration: none;
+}
+.profile_img p {
+    margin-top: 15px;
+    font-style: italic;
+    text-align: center;
+}
 .profile_inf {
     margin-top: 20px;
 }

@@ -3,7 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getUser, removeUserSession } from '../utils/Common';
+import { createBrowserHistory } from "history";
 import './navbar.css';
+
+const history = createBrowserHistory({ window });
 
 const UserAct = ({handleLogout}) => (
     <div id='act_user' className='act_user'>
@@ -13,16 +16,14 @@ const UserAct = ({handleLogout}) => (
     </div>
 )
 
-const Navbar = (props) => {
+const Navbar = () => {
     const [selected, setSelected] = useState(false);
     const user = getUser();
 
-    console.log(user);
     //Reload page
     const reload =() =>{
         window.location.reload();
     }
-
 
     //Show button user acction
     const showBtnUserAct = (e) => {
@@ -37,7 +38,8 @@ const Navbar = (props) => {
     // handle click event of logout button
     const handleLogout = () => {
         removeUserSession();
-        props.history.push('/login');
+        history.push('/');
+        reload();
     }
     
     return (
