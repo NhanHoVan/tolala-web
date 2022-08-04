@@ -2,9 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import './home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight, faEllipsis, faGlobe, faHeart, faIcons, faImages, faLock, faMessage, faSquarePlus, faUserGroup, faUserPlus, faUserTag} from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { getToken, getUser } from '../utils/Common';
-import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 const token = getToken();
@@ -16,7 +15,7 @@ const feedList = [{
     authorId: 0,
     createDate: 2022/7/24,
     updateDate: "",
-    shareTo: 1,
+    shareTo: "1",
     like: 23,
 },
   {
@@ -26,7 +25,37 @@ const feedList = [{
     authorId: 1,
     createDate: 2022/7/25,
     updateDate: "",
-    shareTo: 0,
+    shareTo: "0",
+    like: 0,
+},
+{
+    id: 2,
+    content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
+    image: "./imgs/feed2.jpg",
+    authorId: 1,
+    createDate: 2022/7/24,
+    updateDate: "",
+    shareTo: "0",
+    like: 0,
+},
+{
+    id: 3,
+    content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
+    image: "./imgs/feed2.jpg",
+    authorId: 2,
+    createDate: 2022/7/24,
+    updateDate: "",
+    shareTo: "0",
+    like: 0,
+},
+{
+    id: 4,
+    content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
+    image: "./imgs/feed2.jpg",
+    authorId: 1,
+    createDate: 2022/7/24,
+    updateDate: "",
+    shareTo: "1",
     like: 0,
 },
 ]
@@ -44,29 +73,30 @@ const Home = (props) => {
     const [selectImg, setSelectImg] = useState("");
     const [selectFeed, setSelectFeed] = useState(null);
     const [content, setContent] = useState("");
-    const [share, setShare] = useState(1);
+    const [share, setShare] = useState("1");
     const [mess, setMess] = useState("");
+    const [user, setUser] = useState(null)
+    const [infUser, setInfUser] = useState({});
     const hiddenImgInput = useRef("");
-    const user = getUser();
 
     //Set list feed
     useEffect(() => {
         (user === null) ? (
-            setFeeds(feedList.filter((item)=> item.shareTo === 1))
+            setFeeds(listFeedAccess(feedList.filter((item)=> item.shareTo === "1")))
         ):(
-            setFeeds(feedList)
+            setFeeds(listFeedAccess(feedList))
         )
-    }, [])
+    }, [props])
 
     //Reload page
     const reload =() =>{
         window.location.reload();
     }
     //image slide show
-    var next = () => {
+    const next = () => {
         (imgSlide === 4 ) ? setImgSlide(1) : setImgSlide(imgSlide + 1);
     }
-    var prev = () => {
+    const prev = () => {
         (imgSlide === 1 ) ? setImgSlide(4) : setImgSlide(imgSlide - 1);
     }
     useEffect(() => {
@@ -75,6 +105,21 @@ const Home = (props) => {
     // eslint-disable-next-line
     }, [imgSlide]);
 
+    //Infor user
+    const userInf = (id) => {
+        for (const u of props.infUsers) {
+            if (id === u.userId) {
+                return u;
+            }
+        }
+        return null;
+    }
+    useEffect(()=>{
+        setUser(getUser());
+        if (user !== null) {
+            setInfUser(userInf(user.userId));
+        }
+    },[props])
     //user information.
     const relationship = (param) => {
         switch(param){
@@ -90,9 +135,9 @@ const Home = (props) => {
     //feed
     const shareTo = (param) => {
         switch (param) {
-            case 0:
+            case "0":
                 return <FontAwesomeIcon icon={faLock}/>;
-            case 1:
+            case "1":
                 return <FontAwesomeIcon icon={faGlobe}/>;
             default:
                 return <FontAwesomeIcon icon={faUserGroup}/>;
@@ -103,7 +148,7 @@ const Home = (props) => {
     }
 
     //pick image
-    const handleClickImg = (e) => {
+    const handleClickImg = () => {
         hiddenImgInput.current.click();
     }
     const handleChangeImg = (e) => {
@@ -123,7 +168,7 @@ const Home = (props) => {
                 id: int,
                 content: content,
                 image: ((selectImg) === "" ? ("") : (URL.createObjectURL(selectImg))),
-                author: "",
+                authorId: user.userId,
                 createDate: new Date(),
                 updateDate: "",
                 shareTo: share,
@@ -138,7 +183,7 @@ const Home = (props) => {
     }
     const cleanFormFeed = () => {
         setContent("");
-        setShare(1);
+        setShare("1");
         setMess("");
         cleanImg();
     }
@@ -166,12 +211,29 @@ const Home = (props) => {
     }
 
     //Set permission
-    const isPermission = (feed) => {
+    const isPermissionShowAct = (feed) => {
         let permission = false;
         if (user.userId === 0 || feed.authorId === user.userId) {
             permission = true;
         }
         return permission;
+    }
+    const listFeedAccess = (feeds) => {
+        if (user !== null) {
+            let feedListHide = [];
+            if (user.userId !== 0) {
+                for (const feed of feeds) {
+                    if (feed.authorId !== user.userId && feed.shareTo === "0") {
+                        feedListHide = feedListHide.concat(feeds.filter((item)=>item.id === feed.id));
+                    }
+                }
+                if (feedListHide !== null) {
+                    return feeds.filter(feed => !feedListHide.includes(feed));
+                }
+            }
+        }
+        return feeds;
+        
     }
 
     return (
@@ -203,13 +265,13 @@ const Home = (props) => {
                         ></textarea>
                         <div className='display_flex'>
                             <div className='display_flex_left'>
-                                {(share === 1) ? (<FontAwesomeIcon icon={faGlobe}/>) : (<FontAwesomeIcon icon={faLock}/>)}
+                                {(share === "1") ? (<FontAwesomeIcon icon={faGlobe}/>) : (<FontAwesomeIcon icon={faLock}/>)}
                                 <select
                                     value={share}
                                     onChange={(e) => setShare(e.target.value)}
                                 >
-                                    <option value={0}>Private</option>
-                                    <option value={1}>Public </option>
+                                    <option value={"0"}>Private</option>
+                                    <option value={"1"}>Public </option>
                                 </select>
                             </div>
                             <div className='display_flex_right'>
@@ -231,7 +293,7 @@ const Home = (props) => {
                             <div className='display_flex_space'>
                                 <div className='update_delete_feed'>
                                     {(user === null) ? null : (
-                                    (isPermission(feed)) ? (
+                                        (isPermissionShowAct(feed)) ? (
                                             <p id={feed.id} onClick={selectFeed === null ? showBtnUpdateDeleteFeed : hideBtnUpdateDeleteFeed }><FontAwesomeIcon icon={faEllipsis}/></p>
                                         ): (null))}
                                     <UpdateDeleteFeed id={feed.id +"ud"} editFeed={()=>editFeed()} deleteFeed={()=>deleteFeed()}/>
@@ -244,7 +306,10 @@ const Home = (props) => {
                                     }
                             </div>
                             <p>{feed.content}</p>
-                            <p onClick={addLike}><FontAwesomeIcon className='iconHeart' icon={faHeart}/> {feed.like}</p>
+                            <div className='display_flex_space'>
+                                <p onClick={addLike}><FontAwesomeIcon className='iconHeart' icon={faHeart}/> {feed.like}</p>
+                                <p>{userInf(feed.authorId) && userInf(feed.authorId).name}</p>
+                            </div>
                         </div>
                     )) }
                 </div>
@@ -261,18 +326,19 @@ const Home = (props) => {
                             <div className='bgr_profile'>
                                 <div className='display_flex_col_center'>
                                     <div className='profile_img'>
-                                        {(user.avatar === "") ? (<img src="./imgs/icon_user.png" alt="This is the User profile."/>) :
-                                        (<img src={user.avatar} alt="This is the User profile."/>)
+                                        { (infUser.avatar === "") ? 
+                                            (<img src="./imgs/icon_user.png" alt="This is the User profile."/>) :
+                                            (<img src={infUser.avatar} alt="This is the User profile."/>)
                                         }
                                     </div>
                                     <div>
-                                        <h3>{user.name}</h3>
+                                        <h3>{infUser.name}</h3>
                                     </div>
                                 </div>
                                 <div className='profile_inf'>
-                                    <p>Tuổi: {user.birthday}</p>
-                                    <p>Sở thích: {user.hobby}</p>
-                                    <p>Tình trạng: {relationship(user.relationship)}</p>
+                                    <p>Tuổi: {infUser.birthday}</p>
+                                    <p>Sở thích: {infUser.hobby}</p>
+                                    <p>Tình trạng: {relationship(infUser.relationship)}</p>
                                 </div>
                                 <div className='profile_act' onClick={reload}>
                                     <Link to='/friends'><FontAwesomeIcon className='icon' icon={faUserPlus} /></Link>

@@ -1,5 +1,5 @@
 // generate token using secret from process.env.JWT_SECRET
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
  
 // generate token and return it
 function generateToken(user) {
@@ -7,14 +7,9 @@ function generateToken(user) {
   //2. Use the information that are useful in other parts
   if (!user) return null;
  
-  var u = {
+  const u = {
     userId: user.userId,
-    name: user.name,
     username: user.username,
-    birthday: user.birthday,
-    hobby: user.hobby,
-    relationship: user.relationship,
-    avatar: user.avatar,
     isAdmin: user.isAdmin
   };
  
@@ -29,12 +24,7 @@ function getCleanUser(user) {
  
   return {
     userId: user.userId,
-    name: user.name,
     username: user.username,
-    birthday: user.birthday,
-    hobby: user.hobby,
-    relationship: user.relationship,
-    avatar: user.avatar,
     isAdmin: user.isAdmin
   };
 }

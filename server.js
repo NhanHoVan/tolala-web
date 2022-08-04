@@ -8,41 +8,54 @@ const utils = require('./utils');
  
 const app = express();
 const port = process.env.PORT || 4000;
+let userData;
  
 // static user details
-const userArr = [
+const userLogin = [
   {
     userId: 0,
     password: "123",
-    name: "Nhan Ho Van",
     username: "admin",
-    birthday: "27",
-    hobby: "Chạy",
-    relationship: 0,
-    avatar: "./imgs/img_admin.png",
     isAdmin: true
   },
   {
     userId: 1,
     password: "123",
-    name: "Nguyen Van A",
     username: "user1",
-    birthday: "24",
-    hobby: "Đá bóng",
-    relationship: 1,
-    avatar: "./imgs/feed1.jpg",
     isAdmin: false
   },
   {
     userId: 2,
     password: "123",
-    name: "Tran Thi Thao",
     username: "user2",
+    isAdmin: false
+  },
+];
+// static user details
+const userInfor = [
+  {
+    userId: 0,
+    name: "Nhan Ho Van",
+    birthday: "27",
+    hobby: "Chạy",
+    relationship: 0,
+    avatar: "./imgs/img_admin.png"
+  },
+  {
+    userId: 1,
+    name: "Nguyen Van A",
+    birthday: "24",
+    hobby: "Đá bóng",
+    relationship: 1,
+    avatar: "./imgs/feed1.jpg"
+  },
+  {
+    userId: 2,
+    name: "Tran Thi Thao",
     birthday: "27",
     hobby: "Hát",
     relationship: 1,
-    avatar: "./imgs/feed2.jpg",
-    isAdmin: false
+    avatar: "./imgs/feed2.jpg"
   },
 ];
  
@@ -58,7 +71,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //In all future routes, this helps to know if the request is authenticated or not.
 app.use(function (req, res, next) {
   // check header or url parameters or post parameters for token
-  var token = req.headers['authorization'];
+  let token = req.headers['authorization'];
   if (!token) return next(); //if no token, continue
  
   token = token.replace('Bearer ', '');
@@ -81,7 +94,19 @@ app.get('/', (req, res) => {
   if (!req.user) return res.status(401).json({ success: false, message: 'Invalid user to access it.' });
   res.send('Welcome to the Node.js Tutorial! - ' + req.user.name);
 });
- 
+
+
+// request get userInfor.
+app.get('/users', function (req, res) {
+  let token = req.body.token || req.query.token;
+  if (!token) {
+    return res.status(400).json({
+      error: true,
+      message: "Token is required."
+    });
+  }
+  return res.json({ userInfor });
+});
  
 // validate the user credentials
 app.post('/users/signin', function (req, res) {
@@ -97,13 +122,14 @@ app.post('/users/signin', function (req, res) {
   }
  
   // return 401 status if the credential is not match.
-  for (let i = 0; i < userArr.length; i++) {
-    userData = userArr[i];
-    if (user === userData.username && pwd === userData.password) {
+  for (const element of userLogin) {
+    let userDta = element;
+    if (user === userDta.username && pwd === userDta.password) {
+      userData = userDta;
       // generate token
-      const token = utils.generateToken(userData);
+      const token = utils.generateToken(userDta);
       // get basic user details
-      const userObj = utils.getCleanUser(userData);
+      const userObj = utils.getCleanUser(userDta);
       // return the token along with user details
       return res.json({ user: userObj, token });
     }
@@ -118,7 +144,7 @@ app.post('/users/signin', function (req, res) {
 // verify the token and return it if it's valid
 app.get('/verifyToken', function (req, res) {
   // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token;
+  let token = req.body.token || req.query.token;
   if (!token) {
     return res.status(400).json({
       error: true,
@@ -140,7 +166,7 @@ app.get('/verifyToken', function (req, res) {
       });
     }
     // get basic user details
-    var userObj = utils.getCleanUser(userData);
+    let userObj = utils.getCleanUser(userData);
     return res.json({ user: userObj, token });
   });
 });

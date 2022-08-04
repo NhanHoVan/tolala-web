@@ -13,13 +13,15 @@ import { getToken, removeUserSession, setUserSession } from './screens/utils/Com
 function App() {
 
   const [authLoading, setAuthLoading] = useState(true);
- 
+  const [infUsers, setInfUsers] = useState([]);
+  
   useEffect(() => {
     const token = getToken();
     if (!token) {
       return;
     }
- 
+
+    //Get verify Token
     axios.get(`http://localhost:4000/verifyToken?token=${token}`).then(response => {
       setUserSession(response.data.token, response.data.user);
       setAuthLoading(false);
@@ -27,22 +29,28 @@ function App() {
       removeUserSession();
       setAuthLoading(false);
     });
+
+    //Get API User
+    axios.get(`http://localhost:4000/users?token=${token}`).then(response => {
+        setInfUsers(response.data.userInfor);
+    }).catch(error => {
+        console.log("Get API Users Error");
+    });
   }, []);
  
   if (authLoading && getToken()) {
     return <div className="content">Checking Authentication...</div>
   }
 
-
   return (
     <div className="app">
       <BrowserRouter>
       <div className="bgr_app">
         <div className="bgr_navbar">
-          <Navbar />
+          <Navbar infUsers = {infUsers}/>
         </div>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home infUsers = {infUsers}/>} />
           
           <Route exact path='/friends' element={<PrivateRoute />}>
             <Route exact path='/friends' element={<Friends />}/>

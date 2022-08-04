@@ -1,6 +1,6 @@
 import { faHome, faMessage, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getUser, removeUserSession } from '../utils/Common';
 import { createBrowserHistory } from "history";
@@ -16,14 +16,31 @@ const UserAct = ({handleLogout}) => (
     </div>
 )
 
-const Navbar = () => {
+const Navbar = (props) => {
     const [selected, setSelected] = useState(false);
-    const user = getUser();
+    const [user, setUser] = useState(null)
+    const [infUser, setInfUser] = useState({});
 
     //Reload page
     const reload =() =>{
         window.location.reload();
     }
+
+    //Infor user
+    const userInf = (id) => {
+        for (const u of props.infUsers) {
+            if (id === u.userId) {
+                return u;
+            }
+        }
+        return null;
+    }
+    useEffect(()=>{
+        setUser(getUser());
+        if (user !== null) {
+            setInfUser(userInf(user.userId));
+        }
+    },[props])
 
     //Show button user acction
     const showBtnUserAct = (e) => {
@@ -67,7 +84,10 @@ const Navbar = () => {
                     ): (
                         <div className='user_avatar' >
                             <div className='avatar' onClick={!selected? showBtnUserAct : hideBtnUserAct }>
-                                {user.avatar !== "" ? <img src={user.avatar} alt='avatar user'/>: <div className='user_icon'><FontAwesomeIcon className='icon' icon={faUser}/></div>}
+                                { infUser.avatar !== "" ? 
+                                    <img src={infUser.avatar} alt='avatar user'/> : 
+                                    <div className='user_icon'><FontAwesomeIcon className='icon' icon={faUser}/></div>
+                                }
                             </div>
                             <UserAct handleLogout={()=>handleLogout()} />
                         </div>

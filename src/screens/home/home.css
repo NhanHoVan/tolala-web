@@ -39,6 +39,9 @@
     border-bottom: none;
     padding: 5px 10px;
 }
+.display_flex_space p {
+    font-style: italic;
+}
 .display_flex_space p path {
     color: #d9d9d9;
 }
@@ -197,10 +200,10 @@
     font-weight: bold;
     font-size: 20px;
 }
-.iconHeart {
+p .iconHeart {
     font-size: 25px;
     margin-top: 10px;
 }
-.iconHeart path {
+p .iconHeart path {
     color: #ff0000;
 }
