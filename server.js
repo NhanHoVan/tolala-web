@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const utils = require('./utils');
+const { json } = require('body-parser');
  
 const app = express();
 const port = process.env.PORT || 4000;
@@ -58,6 +59,59 @@ const userInfor = [
     avatar: "./imgs/feed2.jpg"
   },
 ];
+
+//static feeds
+const feeds = [{
+  id: 0,
+  content: "Chiều 26-7, ông Đình Thành Tiến, chủ tịch UBND xã Cát Khánh, huyện Phù Cát (Bình Định) cho biết vào sáng cùng ngày tại khu vực Hòn Trâu, thuộc vùng biển Đề Gi xuất hiện 2 con cá voi xanh trước sự kinh ngạc của nhiều du khách và hướng dẫn viên.",
+  image: "./imgs/feed1.jpg",
+  authorId: 0,
+  createDate: 2022/7/24,
+  updateDate: "",
+  shareTo: "1",
+  like: 23,
+},
+{
+  id: 1,
+  content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
+  image: "./imgs/feed2.jpg",
+  authorId: 1,
+  createDate: 2022/7/25,
+  updateDate: "",
+  shareTo: "0",
+  like: 0,
+},
+{
+  id: 2,
+  content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
+  image: "./imgs/feed2.jpg",
+  authorId: 1,
+  createDate: 2022/7/24,
+  updateDate: "",
+  shareTo: "0",
+  like: 0,
+},
+{
+  id: 3,
+  content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
+  image: "./imgs/feed2.jpg",
+  authorId: 2,
+  createDate: 2022/7/24,
+  updateDate: "",
+  shareTo: "0",
+  like: 0,
+},
+{
+  id: 4,
+  content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
+  image: "./imgs/feed2.jpg",
+  authorId: 1,
+  createDate: 2022/7/24,
+  updateDate: "",
+  shareTo: "1",
+  like: 0,
+},
+]
  
 // enable CORS
 app.use(cors());
@@ -106,6 +160,25 @@ app.get('/users', function (req, res) {
     });
   }
   return res.json({ userInfor });
+});
+
+// request get feeds.
+app.get('/feeds', function (req, res) {
+  return res.json({ feeds });
+});
+
+//request add new feed
+app.post('/feeds/add-new-feed', function (req, res) {
+  const feed = req.body;
+  feeds.unshift(feed);
+  return res.json({feeds});
+});
+
+//request delete feed
+app.post('/feeds/delete-feed', function (req, res) {
+  const feedId = req.body.id;
+  const listFeed = feeds.filter((item)=>item.id !== feedId);
+  return res.json({listFeed});
 });
  
 // validate the user credentials

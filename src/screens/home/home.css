@@ -39,6 +39,9 @@
     border-bottom: none;
     padding: 5px 10px;
 }
+.update_delete_feed .modal {
+    visibility: hidden;
+}
 .display_flex_space p {
     font-style: italic;
 }

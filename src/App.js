@@ -25,7 +25,7 @@ function App() {
     axios.get(`http://localhost:4000/verifyToken?token=${token}`).then(response => {
       setUserSession(response.data.token, response.data.user);
       setAuthLoading(false);
-    }).catch(error => {
+    }).catch(e => {
       removeUserSession();
       setAuthLoading(false);
     });
@@ -33,7 +33,7 @@ function App() {
     //Get API User
     axios.get(`http://localhost:4000/users?token=${token}`).then(response => {
         setInfUsers(response.data.userInfor);
-    }).catch(error => {
+    }).catch(e => {
         console.log("Get API Users Error");
     });
   }, []);

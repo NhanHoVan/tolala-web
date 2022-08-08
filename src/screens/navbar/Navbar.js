@@ -7,6 +7,7 @@ import { createBrowserHistory } from "history";
 import './navbar.css';
 
 const history = createBrowserHistory({ window });
+const user = getUser();
 
 const UserAct = ({handleLogout}) => (
     <div id='act_user' className='act_user'>
@@ -18,7 +19,6 @@ const UserAct = ({handleLogout}) => (
 
 const Navbar = (props) => {
     const [selected, setSelected] = useState(false);
-    const [user, setUser] = useState(null)
     const [infUser, setInfUser] = useState({});
 
     //Reload page
@@ -36,18 +36,17 @@ const Navbar = (props) => {
         return null;
     }
     useEffect(()=>{
-        setUser(getUser());
         if (user !== null) {
             setInfUser(userInf(user.userId));
         }
-    },[props])
+    },[])
 
     //Show button user acction
-    const showBtnUserAct = (e) => {
+    const showBtnUserAct = () => {
         document.getElementById("act_user").classList.add("showBtn");
         setSelected(true);
     }
-    const hideBtnUserAct = (e) => {
+    const hideBtnUserAct = () => {
         document.getElementById("act_user").classList.remove("showBtn");
         setSelected(false);
     }
@@ -83,7 +82,7 @@ const Navbar = (props) => {
                         </div>
                     ): (
                         <div className='user_avatar' >
-                            <div className='avatar' onClick={!selected? showBtnUserAct : hideBtnUserAct }>
+                            <div className='avatar' onClick={!selected ? showBtnUserAct : hideBtnUserAct }>
                                 { infUser.avatar !== "" ? 
                                     <img src={infUser.avatar} alt='avatar user'/> : 
                                     <div className='user_icon'><FontAwesomeIcon className='icon' icon={faUser}/></div>
