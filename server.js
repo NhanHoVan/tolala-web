@@ -177,8 +177,12 @@ app.post('/feeds/add-new-feed', function (req, res) {
 //request delete feed
 app.post('/feeds/delete-feed', function (req, res) {
   const feedId = req.body.id;
-  const listFeed = feeds.filter((item)=>item.id !== feedId);
-  return res.json({listFeed});
+  for (let i = 0; i < feeds.length; i++) {
+    if (feeds[i].id === feedId) {
+      feeds.splice(i, 1);
+    }
+  }
+  return res.json({feeds});
 });
  
 // validate the user credentials

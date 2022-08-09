@@ -37,9 +37,6 @@ const Home = (props) => {
 
     //Set list feed
     useEffect(() => {
-        //Get  list feeds
-        getFeeds();
-
         (user === null) ? (
             setFeeds(listFeedAccess(feedList.filter((item)=> item.shareTo === "1")))
         ):(
@@ -47,6 +44,11 @@ const Home = (props) => {
         )
 
     }, [feedList])
+
+    //Set list feed
+    useEffect(() => {
+        getFeeds();
+    }, [])
 
     useEffect(() => {
         if (user !== null) {
@@ -136,7 +138,9 @@ const Home = (props) => {
         axios(configPost)
             .then((response) => {
                 setFeedList(response.data.listFeed);
-                alert("Xóa feed thành công!")
+                console.log(feedList);
+                alert("Xóa feed thành công!");
+                reload();
             })
             .catch((e) => {
                 alert("Có lỗi xảy ra" + e)
@@ -219,6 +223,12 @@ const Home = (props) => {
     const cleanImg = () => {
         setSelectImg("");
     }
+    const showImgChoose = (sI) => {
+        if (sI !== "") {
+            return <div className='bgr_img_feed'><img src={URL.createObjectURL(sI)} alt="This is the new feed's img"/><p onClick={cleanImg}>x</p></div>
+        }
+        return null;
+    }
 
     //Show button acction
     const showBtnUpdateDeleteFeed = (e) => {
@@ -231,7 +241,7 @@ const Home = (props) => {
     }
 
     //Set permission
-    const isPermissionShowAct = (f) => {     let permission = false;
+    const isPermissionShowAct = (f) => { let permission = false;
         if (user.userId === 0 || f.authorId === user.userId) {
             permission = true;
         }
@@ -271,11 +281,9 @@ const Home = (props) => {
                     { user? (
                         <div className='bgr_addNewFeed'>
                             <div className='img_feed'>
-                                {(selectImg === "") ? ("") :
-                                    (<div className='bgr_img_feed'><img src={URL.createObjectURL(selectImg)} alt="This is the new feed's img"/><p onClick={cleanImg}>x</p></div>)
-                                    }
+                                {showImgChoose(selectImg)}
                             </div>
-                            {(mess === "")?(""):(<p className='mess'>{mess}</p>)}
+                            {mess && <p className='mess'>{mess}</p>}
                             <textarea
                                 rows="4"
                                 placeholder='Bạn đang nghĩ gì?'
@@ -363,6 +371,9 @@ const Home = (props) => {
                         )
                     }
                 </div>
+            </div>
+            <div className='bgr_footer'>
+                <p>Copyright@ VanNhan</p>
             </div>
         </div>
     );

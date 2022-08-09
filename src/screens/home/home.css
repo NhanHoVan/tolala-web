@@ -146,7 +146,7 @@
 }
 .profile_img img {
     width: 100%;
-    height: auto;
+    aspect-ratio: 1;
     object-fit: cover;
     border-radius: 50%;
     box-shadow: #808080 0px 0px 3px 0px;
@@ -209,4 +209,13 @@ p .iconHeart {
 }
 p .iconHeart path {
     color: #ff0000;
+}
+.bgr_footer {
+    padding: 50px 15px 30px;
+    text-align: right;
+}
+.bgr_footer p {
+    font-style: italic;
+    color: #80808050;
+    font-size: 11px;
 }
