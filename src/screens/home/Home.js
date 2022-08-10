@@ -363,10 +363,6 @@ const Home = (props) => {
                                     <p>Sở thích: {infUser.hobby}</p>
                                     <p>Tình trạng: {relationship(infUser.relationship)}</p>
                                 </div>
-                                <div className='profile_act' onClick={reload}>
-                                    <Link to='/friends'><FontAwesomeIcon className='icon' icon={faUserPlus} /></Link>
-                                    <Link to='/messenger'><FontAwesomeIcon className='icon' icon={faMessage}/></Link>
-                                </div>
                             </div>
                         )
                     }

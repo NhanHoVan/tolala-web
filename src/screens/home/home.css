@@ -65,13 +65,22 @@
 }
 .control_slide {
     width: 100%;
-    top: 30%;
+    top: 40%;
     font-size: 30px;
     opacity: 0.1;
     position: absolute;
 }
 .control_slide:hover {
     opacity: 1;
+}
+.control_slide .display_flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.control_slide .display_flex div svg {
+    font-size: 20px;
+    margin: 10px;
 }
 .bgr_content {
     width: 100%;
@@ -164,16 +173,6 @@
 }
 .profile_inf p {
     line-height: 25px;
-}
-.profile_act {
-    margin-top: 15px;
-}
-.profile_act .icon {
-    margin-right: 15px;
-    font-size: 20px;
-    padding: 5px 10px;
-    background-color: #f26618;
-    border-radius: 5px;
 }
 .feed {
     padding: 20px;

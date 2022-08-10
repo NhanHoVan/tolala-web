@@ -29,10 +29,11 @@
 }
 .bgr_friends .bgr_friend .bgr_del_friend {
     float: right;
-    margin: 0px 10px 0px 0px;
 }
-.bgr_friends .bgr_friend .bgr_del_friend .pDel {
-    position: absolute;
+.bgr_friend .bgr_icon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .bgr_friend .display_flex {
     padding: 10px 20px;
@@ -41,7 +42,7 @@
     align-items: center;
 }
 .display_flex div:last-of-type {
-    font-size: 25px;
+    font-size: 15px;
 }
 .display_flex div p {
     font-size: 15px;
@@ -50,8 +51,23 @@
 .list_friends {
     width: 100%;
 }
+.bgr_friends .hidden .icon {
+    background-color: #faebd7;
+}
+.bgr_friends .hidden .icon:hover {
+    box-shadow: none;
+}
+.bgr_friends .icon {
+    margin-right: 10px;
+    padding: 10px;
+    background-color: #f26618;
+    border-radius: 25px;
+}
+.bgr_friends .icon:hover {
+    box-shadow: #808080 0px 0px 3px;
+}
 .bgr_friends .icon path {
-    color: #F26618;
+    color: #ffffff;
 }
 .bgr_del_friend .modal {
     display: none;

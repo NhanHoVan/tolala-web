@@ -52,16 +52,16 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home infUsers = {infUsers}/>} />
           
-          <Route exact path='/friends' element={<PrivateRoute />}>
-            <Route exact path='/friends' element={<Friends />}/>
+          <Route exact path="/friends" element={<PrivateRoute />}>
+            <Route exact path="/friends" element={<Friends infUsers = {infUsers}/>}/>
           </Route>
           
-          <Route exact path='/messenger' element={<PrivateRoute />}>
-            <Route exact path='/messenger' element={<Message />}/>
+          <Route exact path="/messenger" element={<PrivateRoute />}>
+            <Route exact path="/messenger/:id" element={<Message />}/>
           </Route>
 
-          <Route exact path='/login' element={<PublicRoute />}>
-            <Route exact path='/login' element={<Login />}/>
+          <Route exact path="/login" element={<PublicRoute />}>
+            <Route exact path="/login" element={<Login />}/>
           </Route>
         </Routes>
       </div>
