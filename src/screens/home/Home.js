@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faEllipsis, faGlobe, faHeart, faIcons, faImages, faLock, faMessage, faSquarePlus, faUserGroup, faUserPlus, faUserTag} from '@fortawesome/free-solid-svg-icons';
-import { Link, NavLink } from 'react-router-dom';
+import { faAngleLeft, faAngleRight, faEllipsis, faGlobe, faHeart, faIcons, faImages, faLock, faSquarePlus, faUserGroup, faUserTag} from '@fortawesome/free-solid-svg-icons';
+import { NavLink } from 'react-router-dom';
 import { getToken, getUser } from '../utils/Common';
 import axios from 'axios';
 import moment from 'moment';
@@ -10,10 +10,6 @@ import moment from 'moment';
 const token = getToken();
 const user = getUser();
 
-//Reload page
-const reload =() =>{
-    window.location.reload();
-}
 
 const UpdateDeleteFeed = ({id, editFeed, deleteFeed}) => (
     <div id={id} className='btn_update_delete'>
@@ -28,7 +24,7 @@ const Home = (props) => {
     const [feedList, setFeedList] = useState([]);
     const [feeds, setFeeds] = useState([]);
     const [selectImg, setSelectImg] = useState("");
-    const [selectFeed, setSelectFeed] = useState(null);
+    const [selectFeed, setSelectFeed] = useState("");
     const [content, setContent] = useState("");
     const [share, setShare] = useState("1");
     const [mess, setMess] = useState("");
@@ -45,7 +41,7 @@ const Home = (props) => {
 
     }, [feedList])
 
-    //Set list feed
+    // Set list feed
     useEffect(() => {
         getFeeds();
     }, [])
@@ -79,9 +75,12 @@ const Home = (props) => {
         if (content === "") {
             setMess("Bạn đang nghĩ gì?")
         } else {
-            const ids = feedList.map(f => {return f.id;});
-            const setId = Math.max(...ids) + 1;
-            
+            let setId = 1;
+            if (feedList.length !== 0 || feedList !== null) {
+                let ids = feedList.map(f => {return f.id;});
+                setId = Math.max(...ids) + 1;
+            }
+
             let data = JSON.stringify({
                 "id": setId,
                 "content": content,
@@ -137,13 +136,12 @@ const Home = (props) => {
 
         axios(configPost)
             .then((response) => {
-                setFeedList(response.data.listFeed);
-                console.log(feedList);
-                alert("Xóa feed thành công!");
-                reload();
+                setFeedList(response.data.feeds)
+                getFeeds();
+                setSelectFeed("");
             })
             .catch((e) => {
-                alert("Có lỗi xảy ra" + e)
+                alert("Có lỗi xảy ra" + e);
             });
     }
 
@@ -207,7 +205,7 @@ const Home = (props) => {
     const visibleBtnAct = (u, f) => {
         if (u !== null) {
             if (isPermissionShowAct(f)) {
-                return <p id={f.id} onClick={selectFeed === null ? showBtnUpdateDeleteFeed : hideBtnUpdateDeleteFeed }><FontAwesomeIcon icon={faEllipsis}/></p>
+                return <p id={f.id} onClick={selectFeed === "" ? showBtnUpdateDeleteFeed : hideBtnUpdateDeleteFeed }><FontAwesomeIcon icon={faEllipsis}/></p>
             }
         }
         return null;
@@ -237,7 +235,7 @@ const Home = (props) => {
     }
     const hideBtnUpdateDeleteFeed = (e) => {
         document.getElementById(e.currentTarget.id + "ud").classList.remove("showBtn");
-        setSelectFeed(null);
+        setSelectFeed("");
     }
 
     //Set permission
@@ -298,8 +296,8 @@ const Home = (props) => {
                                         value={share}
                                         onChange={(e) => setShare(e.target.value)}
                                     >
-                                        <option value={"0"}>Private</option>
-                                        <option value={"1"}>Public </option>
+                                        <option value={"0"} name={"Private"}>Private</option>
+                                        <option value={"1"} name={"Public"}>Public </option>
                                     </select>
                                 </div>
                                 <div className='display_flex_right'>
