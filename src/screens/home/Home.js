@@ -48,7 +48,7 @@ const Home = (props) => {
 
     useEffect(() => {
         if (user !== null) {
-            setInfUser(userInf(user.userId));
+            setInfUser(userInf(user.id));
         }
     }, [user])
     
@@ -76,7 +76,7 @@ const Home = (props) => {
             setMess("Bạn đang nghĩ gì?")
         } else {
             let setId = 1;
-            if (feedList.length !== 0 || feedList !== null) {
+            if (feedList.length !== 0) {
                 let ids = feedList.map(f => {return f.id;});
                 setId = Math.max(...ids) + 1;
             }
@@ -85,7 +85,7 @@ const Home = (props) => {
                 "id": setId,
                 "content": content,
                 "image": ((selectImg) === "" ? ("") : (URL.createObjectURL(selectImg))),
-                "authorId": user.userId,
+                "authorId": user.id,
                 "createDate": new Date(),
                 "updateDate": "",
                 "shareTo": share,
@@ -163,7 +163,7 @@ const Home = (props) => {
     //Infor user
     const userInf = (id) => {
         for (const u of props.infUsers) {
-            if (id === u.userId) {
+            if (id === u.id) {
                 return u;
             }
         }
@@ -240,7 +240,7 @@ const Home = (props) => {
 
     //Set permission
     const isPermissionShowAct = (f) => { let permission = false;
-        if (user.userId === 0 || f.authorId === user.userId) {
+        if (user.id === 0 || f.authorId === user.id) {
             permission = true;
         }
         return permission;
@@ -248,9 +248,9 @@ const Home = (props) => {
     const listFeedAccess = (fs) => {
         if (user !== null) {
             let feedListHide = [];
-            if (user.userId !== 0) {
+            if (user.id !== 0) {
                 for (const feed of fs) {
-                    if (feed.authorId !== user.userId && feed.shareTo === "0") {
+                    if (feed.authorId !== user.id && feed.shareTo === "0") {
                         feedListHide = feedListHide.concat(fs.filter((item)=>item.id === feed.id));
                     }
                 }

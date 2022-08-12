@@ -14,19 +14,19 @@ let userData;
 // static user details
 const userLogin = [
   {
-    userId: 0,
+    id: 0,
     password: "123",
     username: "admin",
     isAdmin: true
   },
   {
-    userId: 1,
+    id: 1,
     password: "123",
     username: "user1",
     isAdmin: false
   },
   {
-    userId: 2,
+    id: 2,
     password: "123",
     username: "user2",
     isAdmin: false
@@ -35,33 +35,33 @@ const userLogin = [
 // static user details
 const userInfor = [
   {
-    userId: 0,
+    id: 0,
     name: "Nhan Ho Van",
     birthday: "27",
     hobby: "Chạy",
     slogan: "Sinh ra là để tỏa sáng.",
     relationship: 0,
-    avatar: "./imgs/img_admin.png",
+    avatar: "/imgs/img_admin.png",
     friends: ["1","2"]
   },
   {
-    userId: 1,
+    id: 1,
     name: "Nguyen Van A",
     birthday: "24",
     hobby: "Đá bóng",
     slogan: "Kề vai sát cánh.",
     relationship: 1,
-    avatar: "./imgs/feed1.jpg",
+    avatar: "/imgs/feed1.jpg",
     friends: ["0"]
   },
   {
-    userId: 2,
+    id: 2,
     name: "Tran Thi Thao",
     birthday: "27",
     hobby: "Hát",
     slogan: "Giá trị tích lũy niềm tin.",
     relationship: 1,
-    avatar: "./imgs/feed2.jpg",
+    avatar: "/imgs/feed2.jpg",
     friends: ["1"]
   },
 ];
@@ -241,8 +241,8 @@ app.get('/verifyToken', function (req, res) {
       message: "Invalid token."
     });
  
-    // return 401 status if the userId does not match.
-    if (user.userId !== userData.userId) {
+    // return 401 status if the id does not match.
+    if (user.id !== userData.id) {
       return res.status(401).json({
         error: true,
         message: "Invalid user."

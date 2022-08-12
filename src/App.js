@@ -53,11 +53,11 @@ function App() {
           <Route exact path="/" element={<Home infUsers = {infUsers}/>} />
           
           <Route exact path="/friends" element={<PrivateRoute />}>
-            <Route exact path="/friends" element={<Friends infUsers = {infUsers}/>}/>
+            <Route exact path="/friends" element={<Friends infUsers = {infUsers} />}/>
           </Route>
           
           <Route exact path="/messenger" element={<PrivateRoute />}>
-            <Route exact path="/messenger/:id" element={<Message />}/>
+            <Route exact path="/messenger/:id" element={<Message infUsers = {infUsers} />}/>
           </Route>
 
           <Route exact path="/login" element={<PublicRoute />}>

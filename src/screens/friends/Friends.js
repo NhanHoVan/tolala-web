@@ -26,11 +26,11 @@ const Friends = (props) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
-        setFriends(props.infUsers.filter((i)=>i.userId !== user.userId));
+        setFriends(props.infUsers.filter((i)=>i.id !== user.id));
 
         if (user !== null) {
             for (const u of props.infUsers) {
-                if (user.userId === u.userId) {
+                if (user.id === u.id) {
                     setUserInf(u);
                 }
             }
@@ -42,7 +42,7 @@ const Friends = (props) => {
         let arrFriends = userInf.friends;
         if (arrFriends !== null) {
             for (const ele of arrFriends) {
-                if (ele === f.userId.toString()) {
+                if (ele === f.id.toString()) {
                     return true
                 }
             }
@@ -93,7 +93,7 @@ const Friends = (props) => {
             <div className="list_friends">
                 <div className="bgr_friends">
                     { friends.map((friend) => (
-                        <div className='bgr_friend' key={friend.userId}>
+                        <div className='bgr_friend' key={friend.id}>
                             <div className='display_flex'>
                                 <div>
                                     <h3>{friend.name}</h3>
@@ -102,7 +102,7 @@ const Friends = (props) => {
                                 <div className='bgr_icon'>
                                     { isFriend(friend) ? (
                                         <div className={'iconMess'}>
-                                            <Link to={`/messenger/${friend.userId}`}>
+                                            <Link to={`/messenger/${friend.id}`}>
                                                 <FontAwesomeIcon className='icon' icon={faMessage}/>
                                             </Link>
                                         </div>
@@ -115,9 +115,9 @@ const Friends = (props) => {
                                     <div className='iconFriend'>
                                         { isFriend(friend) ? (
                                             <div className='bgr_del_friend'>
-                                                { !select && <p id={friend.userId} onClick={showModalUnfriend}><FontAwesomeIcon className='icon' icon={faUserGroup}/></p>}
-                                                <ModalUnfriend id={friend.userId+'mf'} title={`Bạn chắc chắn muốn bỏ theo dõi ${friend.name}`}
-                                                    pressOk={()=>unFriend(friend.userId)}
+                                                { !select && <p id={friend.id} onClick={showModalUnfriend}><FontAwesomeIcon className='icon' icon={faUserGroup}/></p>}
+                                                <ModalUnfriend id={friend.id+'mf'} title={`Bạn chắc chắn muốn bỏ theo dõi ${friend.name}`}
+                                                    pressOk={()=>unFriend(friend.id)}
                                                     pressCancel={hidenModalUnfriend}/>
                                             </div>
                                             ) : (

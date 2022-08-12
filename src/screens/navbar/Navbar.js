@@ -29,7 +29,7 @@ const Navbar = (props) => {
     //Infor user
     const userInf = (id) => {
         for (const u of props.infUsers) {
-            if (id === u.userId) {
+            if (id === u.id) {
                 return u;
             }
         }
@@ -39,7 +39,7 @@ const Navbar = (props) => {
         user = getUser();
 
         if (user !== null) {
-            setInfUser(userInf(user.userId));
+            setInfUser(userInf(user.id));
         }
     },[])
 
