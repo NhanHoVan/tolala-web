@@ -1,6 +1,6 @@
 .bgr_mess .window_mess {
     display: flex;
-    min-height: 400px;
+    min-height: 600px;
     margin-top: 30px;
     background-color: #f5f5f5;
     border-radius: 15px;
@@ -81,4 +81,59 @@
 .footer_window .btn_send .icon:hover {
     padding: 11px;
     background-color: #f26618;
+}
+.bgr_mess .body_window {
+    padding: 10px;
+    height: 435px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.bgr_mess .body_window::-webkit-scrollbar {
+    display: none;
+}
+.bgr_mess .body_window ul {
+    padding: 0px;
+}
+.bgr_mess .body_window ul>li {
+    list-style: none;
+    margin: 15px 0px;
+}
+.bgr_mess .body_window .align_right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.bgr_mess .body_window ul>li .mess_status {
+    font-size: 10px;
+    width: 17px;
+}
+.body_window ul>li .display_flex {
+    display: flex;
+    align-items: center;
+}
+.body_window ul>li.align_right .display_flex {
+    display: flex;
+    flex-direction: row-reverse;
+}
+.body_window ul>li .mess_inf {
+    display: none;
+    font-size: 12px;
+}
+.body_window ul>li .mess_content p {
+    color: #000000;
+    font-size: 14px;
+    margin: 0px 5px 0px;
+    background-color: #faebd7;
+    padding: 10px 20px;
+    border-radius: 25px;
+}
+.bgr_mess .body_window ul>li .mess_status img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.bgr_mess .body_window ul>li .mess_status path {
+    color: #f26618;
 }

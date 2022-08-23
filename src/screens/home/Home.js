@@ -45,12 +45,6 @@ const Home = (props) => {
     useEffect(() => {
         getFeeds();
     }, [])
-
-    useEffect(() => {
-        if (user !== null) {
-            setInfUser(userInf(user.id));
-        }
-    }, [user])
     
     const cleanFormFeed = () => {
         setContent("");
@@ -169,6 +163,30 @@ const Home = (props) => {
         }
         return null;
     }
+    useEffect(() => {
+        if (user != null) {
+            setInfUser(userInf(user.id));
+        }
+    }, [user])
+    const showInfUser = (iU) => {
+        return (
+            <div className='bgr_profile'>
+                <div className='display_flex_col_center'>
+                    <div className='profile_img'>
+                        { showAvatar(iU) }
+                    </div>
+                    <div>
+                        <h3>{iU.name}</h3>
+                    </div>
+                </div>
+                <div className='profile_inf'>
+                    <p>Tuổi: {iU.birthday}</p>
+                    <p>Sở thích: {iU.hobby}</p>
+                    <p>Tình trạng: {relationship(iU.relationship)}</p>
+                </div>
+            </div>
+        )
+    }
 
     //user information.
     const relationship = (p) => {
@@ -183,10 +201,10 @@ const Home = (props) => {
     }
     //show avata
     const showAvatar = (inf) => {
-        if (inf === "") {
-            return <img src="./imgs/icon_user.png" alt="This is the User profile."/>;
+        if (inf !== null && inf.avatar !== "") {
+            return <img src={inf.avatar} alt="This is the User profile."/>;
         }
-        return <img src={infUser.avatar} alt="This is the User profile."/>
+        return <img src="./imgs/icon_user.png" alt="This is the User profile."/>;
     }
 
     //feed
@@ -347,21 +365,7 @@ const Home = (props) => {
                                 </NavLink>
                             </div>
                         ):(
-                            <div className='bgr_profile'>
-                                <div className='display_flex_col_center'>
-                                    <div className='profile_img'>
-                                        { showAvatar(infUser) }
-                                    </div>
-                                    <div>
-                                        <h3>{infUser.name}</h3>
-                                    </div>
-                                </div>
-                                <div className='profile_inf'>
-                                    <p>Tuổi: {infUser.birthday}</p>
-                                    <p>Sở thích: {infUser.hobby}</p>
-                                    <p>Tình trạng: {relationship(infUser.relationship)}</p>
-                                </div>
-                            </div>
+                            infUser && showInfUser(infUser)
                         )
                     }
                 </div>

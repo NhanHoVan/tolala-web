@@ -65,14 +65,13 @@ const userInfor = [
     friends: ["1"]
   },
 ];
-
 //static feeds
 const feeds = [{
   id: 0,
   content: "Chiều 26-7, ông Đình Thành Tiến, chủ tịch UBND xã Cát Khánh, huyện Phù Cát (Bình Định) cho biết vào sáng cùng ngày tại khu vực Hòn Trâu, thuộc vùng biển Đề Gi xuất hiện 2 con cá voi xanh trước sự kinh ngạc của nhiều du khách và hướng dẫn viên.",
   image: "./imgs/feed1.jpg",
   authorId: 0,
-  createDate: 2022/7/24,
+  createDate: "2022-07-15T01:58:57.173Z",
   updateDate: "",
   shareTo: "1",
   like: 23,
@@ -82,7 +81,7 @@ const feeds = [{
   content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
   image: "./imgs/feed2.jpg",
   authorId: 1,
-  createDate: 2022/7/25,
+  createDate: "2022-08-02T01:58:57.173Z",
   updateDate: "",
   shareTo: "0",
   like: 0,
@@ -92,7 +91,7 @@ const feeds = [{
   content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
   image: "./imgs/feed2.jpg",
   authorId: 1,
-  createDate: 2022/7/24,
+  createDate: "2022-08-05T01:58:57.173Z",
   updateDate: "",
   shareTo: "0",
   like: 0,
@@ -102,7 +101,7 @@ const feeds = [{
   content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
   image: "./imgs/feed2.jpg",
   authorId: 2,
-  createDate: 2022/7/24,
+  createDate: "2022-08-09T01:58:57.173Z",
   updateDate: "",
   shareTo: "0",
   like: 0,
@@ -112,11 +111,82 @@ const feeds = [{
   content: "Cá mập voi là loài ăn lọc và từ lâu giới khoa học đã quan sát chúng ăn nhuyễn thể ở rạn san hô Ningaloo ngoài khơi Tây Australia. Nhưng khi các nhà nghiên cứu phân tích mẫu sinh thiết từ cá mập voi sống quanh rạn san hô, họ phát hiện thực chất chúng ăn rất nhiều thực vật.",
   image: "./imgs/feed2.jpg",
   authorId: 1,
-  createDate: 2022/7/24,
+  createDate: "2022-08-12T01:58:57.173Z",
   updateDate: "",
   shareTo: "1",
   like: 0,
 },
+]
+//static list mes
+const messengers = [
+  {
+    id: 1,
+    match: ['0', '1'],
+    listMess : [
+      {
+          id: 0,
+          userId: "1",
+          mess: "Hi",
+          createDate: "2022-08-15T01:56:57.173Z",
+          status: "0"
+      },
+      {
+          id: 1,
+          userId: "0",
+          mess: "Hey",
+          createDate: "2022-08-15T01:58:57.173Z",
+          status: "0"
+      },
+      {
+          id: 2,
+          userId: "1",
+          mess: "Are you oke?",
+          createDate: "2022-08-15T02:07:57.173Z",
+          status: "0"
+      },
+      {
+          id: 3,
+          userId: "0",
+          mess: "no",
+          createDate: "2022-08-15T02:08:57.173Z",
+          status: "0"
+      },
+      {
+          id: 4,
+          userId: "1",
+          mess: "why?",
+          createDate: "2022-08-15T02:31:57.173Z",
+          status: "0"
+      },
+      {
+          id: 5,
+          userId: "0",
+          mess: "lack of money",
+          createDate: "2022-08-15T02:58:57.173Z",
+          status: "1"
+      }
+    ]
+  },
+  {
+    id: 2,
+    match: ['0', '2'],
+    listMess : [
+      {
+          id: 0,
+          userId: "2",
+          mess: "Hi",
+          createDate: "2022-08-15T01:56:57.173Z",
+          status: "0"
+      },
+      {
+          id: 1,
+          userId: "0",
+          mess: "Hey",
+          createDate: "2022-08-15T01:58:57.173Z",
+          status: "1"
+      }
+    ]
+  }
 ]
  
 // enable CORS
@@ -190,7 +260,62 @@ app.post('/feeds/delete-feed', function (req, res) {
   }
   return res.json({feeds});
 });
- 
+
+// request get messengers.
+app.get('/messengers', function (req, res) {
+  let userId = req.query.userId;
+  let friendId = req.query.friendId;
+  let messReturn = {};
+  if (userId !== null || friendId !== null) {
+    let inputData = [userId, friendId];
+    console.log(inputData);
+    if (messengers !== null && messengers.length !== 0) {
+      for (const messObj of messengers) {
+        if (inputData.join() === messObj.match.join()) {
+          messReturn = messObj;
+          break;
+        }
+        let match = messObj.match;
+        let flag = true
+        for (const element of inputData) {
+          if (!match.includes(element)) {
+            flag = false;
+          }
+        }
+        if (flag) {
+          messReturn = messObj;
+        }
+      }
+    }
+  }
+  return res.json({ messReturn });
+});
+
+
+const createNewMessObj = () => {
+  return "Thêm mới thành công"
+}
+app.post('/messengers/add-new-mess', function (req, res) {
+  const messInf = req.body;
+  let messList;
+  if (messInf.id === 0) {
+    createNewMessObj();
+  } else {
+    for (const messObj of messengers) {
+      if (messObj.id === messInf.id) {
+        messList = messObj.listMess.push({
+          id: messObj.listMess.length + 1,
+          userId: messInf.userId + "",
+          mess: messInf.mess,
+          createDate: new Date(),
+          status: "1"
+        })
+      }
+    }
+  }
+  return res.json({messList});
+});
+
 // validate the user credentials
 app.post('/users/signin', function (req, res) {
   const user = req.body.username;

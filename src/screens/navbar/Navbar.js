@@ -7,7 +7,7 @@ import { createBrowserHistory } from "history";
 import './navbar.css';
 
 const history = createBrowserHistory({ window });
-let user = null;
+let user = getUser();
 
 const UserAct = ({handleLogout}) => (
     <div id='act_user' className='act_user'>
@@ -36,8 +36,6 @@ const Navbar = (props) => {
         return null;
     }
     useEffect(()=>{
-        user = getUser();
-
         if (user !== null) {
             setInfUser(userInf(user.id));
         }
@@ -62,7 +60,7 @@ const Navbar = (props) => {
 
     //show Avatar in icon user
     const showAvatar = (iU) => {
-        if (iU.avatar !== "") {
+        if (iU !== null && iU.avatar !== "") {
             return <img src={iU.avatar} alt='avatar user'/>;
         }
         return <div className='user_icon'><FontAwesomeIcon className='icon' icon={faUser}/></div>;
