@@ -15,7 +15,8 @@ Server started on: 4000
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-![image](https://github.com/NhanHoVan/tolala-web/assets/80185529/494fbedb-8364-4bc7-a477-5aa5f8bc8363)
+![image](https://github.com/NhanHoVan/tolala-web/assets/80185529/4369b21d-d4b1-4a22-a1bd-446a5c8f2dd2)
+
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
